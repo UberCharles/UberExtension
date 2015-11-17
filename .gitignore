@@ -1,1 +1,3 @@
 uber_env
+config.py
+*.pyc
