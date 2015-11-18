@@ -12,6 +12,7 @@
   "permissions": [
     "activeTab",
     "cookies",
+    "geolocation",
     "http://localhost:8888/",
     "storage"
   ]
