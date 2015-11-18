@@ -22,7 +22,8 @@ def make_app():
     (r"/", MainHandler),
     (r"/login", tornado.web.RedirectHandler, dict(url=config["AUTH_REDIRECT"], permanent=False)),
     (r"/auth", AuthHandler),
-    (r"/token", TokenHandler)
+    (r"/token", TokenHandler),
+    (r"/api/products")
   ], cookie_secret=config["COOKIE_SECRET"])
 
 if __name__ == "__main__":
