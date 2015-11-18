@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+
+  "name": "Uber Extension",
+  "description": "This extension helps you manage Uber transportation without leaving the browser",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "resources/uber-icon.png",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "activeTab",
+    "cookies",
+    "http://localhost:8888/",
+    "storage"
+  ]
+}

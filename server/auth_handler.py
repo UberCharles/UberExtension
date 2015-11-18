@@ -5,6 +5,7 @@ from tornado import gen
 import urllib
 import json
 from redis_conn import r
+import jwt
 
 class AuthHandler(tornado.web.RequestHandler):
   @gen.coroutine
@@ -15,8 +16,11 @@ class AuthHandler(tornado.web.RequestHandler):
     user_data = yield get_user(token_data["access_token"])
     # Store user profile information and tokens
     store_user(user_data, token_data)
-    # TODO: Send client JWT for further requests
-
+    # Create JWT and store it in cookie
+    create_session(user_data["uuid"], self)
+    # Confirm success
+    self.write("Successfully authenticated!")
+    
 # Requests access / refresh token
 @gen.coroutine
 def request_token(auth_code):
@@ -51,3 +55,8 @@ def store_user(user_data, token_data):
       "refresh": token_data["refresh_token"]
     }
   })
+
+def create_session(uuid, request_handler):
+  # Create JWT that stores UUID
+  user_jwt = jwt.encode({"uuid": uuid}, config["JWT_SECRET"], algorithm="HS256")
+  request_handler.set_secure_cookie("JWT", user_jwt)
