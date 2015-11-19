@@ -2,18 +2,19 @@ var server = "http://localhost:8888/api/"
 
 function displayProducts(products) {
   products.forEach(function(product) {
-    var newRow = "<tr><td>" +
+    var newRowString = "<tr><td>" +
       product.display_name + "</td><td>" + 
       product.description + "</td><td>" + 
       // Display N/A if no price details
       (product.price_details ? product.price_details.cost_per_distance : "N/A") + "</td></tr>";
-
-    $('#products-table').append(newRow);
+    var $newRow = $(newRowString).attr("data-product-id", product.product_id);
+    $('#products-table').append($newRow);
   });
 
   $('#products-loader').removeClass("progress");
 }
 
+// TODO: Make products load in background thread
 function getProducts(coordinates) {
   $.get(server + "products", coordinates)
     .done(function(response) {
