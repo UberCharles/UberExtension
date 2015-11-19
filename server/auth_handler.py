@@ -20,7 +20,7 @@ class AuthHandler(tornado.web.RequestHandler):
     create_session(user_data["uuid"], self)
     # Confirm success
     self.write("Successfully authenticated!")
-    
+
 # Requests access / refresh token
 @gen.coroutine
 def request_token(auth_code):
@@ -46,7 +46,7 @@ def get_user(access_token):
 
 # Store user
 def store_user(user_data, token_data):
-  r.set(user_data["uuid"], {
+  r.set(user_data["uuid"], json.dumps({
     "first_name": user_data["first_name"],
     "last_name": user_data["last_name"],
     "email": user_data["email"],
@@ -54,7 +54,7 @@ def store_user(user_data, token_data):
       "access": token_data["access_token"],
       "refresh": token_data["refresh_token"]
     }
-  })
+  }))
 
 def create_session(uuid, request_handler):
   # Create JWT that stores UUID

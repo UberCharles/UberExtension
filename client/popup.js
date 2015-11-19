@@ -1,3 +1,23 @@
+var server = "http://localhost:8888/api/"
+
+function displayProducts(products) {
+  products.forEach(function(product) {
+    var newRow = "<tr><td>" +
+      product.display_name + "</td><td>" + 
+      product.description + "</td><td>" + 
+      product.price_details.cost_per_distance + "</td></tr>";
+
+    $('#products-table').append(newRow);
+  });
+}
+
+function getProducts(coordinates) {
+  $.get(server + "products", coordinates)
+    .done(function(response) {
+      displayProducts(response.products);
+    });
+}
+
 function initializeApp() {
   var location;
   if (navigator.geolocation) {
@@ -6,7 +26,7 @@ function initializeApp() {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
       }
-      console.log(location);
+      getProducts(location);
     });
   } else {
     // Notify usere we can't determine their location

@@ -2,6 +2,7 @@ import jwt
 import tornado.web
 from redis_conn import r
 from config import config
+import json
 
 class BaseHandler(tornado.web.RequestHandler):
   def get_current_user(self):
@@ -11,7 +12,7 @@ class BaseHandler(tornado.web.RequestHandler):
       # If it does, decode it
       decoded_user_jwt = jwt.decode(user_jwt, config["JWT_SECRET"], algorithms=["HS256"])
       # Return users info from Redis
-      return r.get(decoded_user_jwt["uuid"])
+      return json.loads(r.get(decoded_user_jwt["uuid"]))
     else:
       # If no cookie, no user exists
       return None
