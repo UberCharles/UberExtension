@@ -1,6 +1,41 @@
-var server = "http://localhost:8888/api/"
+var app = {
+  server: "http://localhost:8888/api/",
+  location: null
+}
 
-function displayProducts(products) {
+// TODO: Make products load in background thread
+app.initialize = function() {
+  if (this.isAuthenticated) {
+    this.getLocation(function() {
+      if (this.location) {
+        this.getProducts();
+        this.loadAutoComplete();
+      } else {
+        // Handle no location case
+      }
+    }.bind(this));
+  // If not authenticated, create new tab with login page
+  } else {
+    chrome.tabs.create({ url: "http://localhost:8888/login" });
+  }
+};
+
+app.getLocation = function(callback) {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      this.location = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      }
+      callback();
+    }.bind(this));
+  } else {
+    this.location = null;
+    callback();
+  }
+};
+
+app.displayProducts = function(products) {
   products.forEach(function(product) {
     var newRowString = "<tr><td>" +
       product.display_name + "</td><td>" + 
@@ -11,55 +46,46 @@ function displayProducts(products) {
     $('#products-table').append($newRow);
   });
 
+  // Remove loading bar
   $('#products-loader').removeClass("progress");
 }
 
-// TODO: Make products load in background thread
-function getProducts(coordinates) {
-  $.get(server + "products", coordinates)
+app.getProducts = function() {
+  $.get(this.server + "products", this.location)
     .done(function(response) {
-      console.log(response);
-      displayProducts(response.products);
+      this.displayProducts(response.products);
+    }.bind(this));
+};
+
+app.loadAutoComplete = function() {
+  autocompleteService = new google.maps.places.Autocomplete($('#search-places').get(0));
+  autocompleteService.addListener('place_changed', function() {
+    var place = autocompleteService.getPlace();
+    var selectedLocation = {
+      latitude: place.geometry.location.lat(),
+      longitude: place.geometry.location.lng()
+    }
+    // var requestRideData = {
+    //   product
+    // }
+    // $.post(server + "requests")
+  });
+};
+
+app.isAuthenticated = function(callback) {
+  document.addEventListener('DOMContentLoaded', function() {
+    var cookieDetails = {
+      url: "http://localhost:8888/",
+      name: "JWT"
+    }
+    chrome.cookies.get(cookieDetails, function(cookie) {
+      if (!cookie) {
+        callback(false);
+      } else {
+        callback(true);
+      }
     });
+  });
 }
 
-function initializeApp() {
-  var location;
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      location = {
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude
-      }
-      getProducts(location);
-      autocompleteService = new google.maps.places.Autocomplete($('#search-places').get(0));
-      autocompleteService.addListener('place_changed', function() {
-        var place = autocompleteService.getPlace();
-        var selectedLocation = {
-          latitude: place.geometry.location.lat(),
-          longitude: place.geometry.location.long()
-        }
-        var requestRideData = {}
-        $.post(server + "requests")
-        console.log(selectedLocation);
-      });
-    });
-  } else {
-    // Notify usere we can't determine their location
-  }
-} 
-
-document.addEventListener('DOMContentLoaded', function() {
-  var cookieDetails = {
-    url: "http://localhost:8888/",
-    name: "JWT"
-  }
-  chrome.cookies.get(cookieDetails, function(cookie) {
-    if (!cookie) {
-      console.log("If triggered");
-      chrome.tabs.create({ url: "http://localhost:8888/login" });
-    } else {
-      initializeApp();
-    }
-  });
-});
+app.initialize();
