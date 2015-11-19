@@ -8,6 +8,7 @@ from config import config
 from auth_handler import AuthHandler
 from base_handler import BaseHandler
 from product_handler import ProductHandler
+from ride_handler import RideHandler
 
 class MainHandler(BaseHandler):
   def get(self):
@@ -24,7 +25,8 @@ def make_app():
     (r"/login", tornado.web.RedirectHandler, dict(url=config["AUTH_REDIRECT"], permanent=False)),
     (r"/auth", AuthHandler),
     (r"/token", TokenHandler),
-    (r"/api/products", ProductHandler)
+    (r"/api/products", ProductHandler),
+    (r"/api/requests", RideHandler)
   ], cookie_secret=config["COOKIE_SECRET"])
 
 if __name__ == "__main__":

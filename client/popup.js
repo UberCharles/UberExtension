@@ -39,6 +39,8 @@ function initializeApp() {
           latitude: place.geometry.location.lat(),
           longitude: place.geometry.location.long()
         }
+        var requestRideData = {}
+        $.post(server + "requests")
         console.log(selectedLocation);
       });
     });
