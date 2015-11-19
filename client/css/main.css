@@ -12,3 +12,11 @@ body {
 table.highlight > tbody > tr:hover {
   background-color: #ee6e73; 
 }
+
+#places-ignore {
+  display: hidden;
+}
+
+.pac-container {
+  display: block;
+}

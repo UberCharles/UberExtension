@@ -15,5 +15,6 @@
     "geolocation",
     "http://localhost:8888/",
     "storage"
-  ]
+  ],
+  "content_security_policy": "script-src 'self' https://*.googleapis.com; object-src 'self'"
 }

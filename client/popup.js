@@ -32,6 +32,15 @@ function initializeApp() {
         longitude: position.coords.longitude
       }
       getProducts(location);
+      autocompleteService = new google.maps.places.Autocomplete($('#search-places').get(0));
+      autocompleteService.addListener('place_changed', function() {
+        var place = autocompleteService.getPlace();
+        var selectedLocation = {
+          latitude: place.geometry.location.lat(),
+          longitude: place.geometry.location.long()
+        }
+        console.log(selectedLocation);
+      });
     });
   } else {
     // Notify usere we can't determine their location

@@ -12,38 +12,39 @@
     <script src="jquery.min.js"></script>
     <script type="text/javascript" src="js/materialize.min.js"></script>
     <link href="css/main.css" rel="stylesheet">
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDz7smnVlU9Xx2dzXdsdh0bm8tcVR2PDnU&libraries=places"></script>
     <script src="popup.js"></script>
   </head>
   <body>
     <div class="navbar-fixed">
       <nav>
         <div class="nav-wrapper">
-          <form>
+          <!-- <form id="search-form"> -->
             <div class="input-field">
-              <input id="search" type="search" required width="400px">
+              <input id="search-places" type="search" required width="400px" placeholder="Where do you want to go?">
               <label for="search"><i class="material-icons">search</i></label>
               <i class="material-icons">close</i>
             </div>
-          </form>
+          <!-- </form> -->
         </div>
       </nav>
     </div>
-    <a id="call-uber" class="waves-effect waves-light btn">Call Uber!</a>
     <table class="highlight">
-        <thead>
-          <tr>
-              <th data-field="id">Name</th>
-              <th data-field="name">Description</th>
-              <th data-field="price">$ / Mile</th>
-          </tr>
-        </thead>
+      <thead>
+        <tr>
+            <th data-field="id">Name</th>
+            <th data-field="name">Description</th>
+            <th data-field="price">$ / Mile</th>
+        </tr>
+      </thead>
 
-        <tbody id="products-table">
-        </tbody>
-      </table>
-      <div id="products-loader" class="progress">
-        <div class="indeterminate"></div>
-      </div>
+      <tbody id="products-table">
+      </tbody>
+    </table>
+    <div id="products-loader" class="progress">
+      <div class="indeterminate"></div>
+    </div>
+    <div id="places-ignore"></div>
   </body>
 </html>
 
