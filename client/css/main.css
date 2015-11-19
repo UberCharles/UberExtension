@@ -7,3 +7,8 @@ body {
 #products-loader {
   margin-top: 30px;
 }
+
+/* Overwrite materialize, maker table hover red instead of grey*/
+table.highlight > tbody > tr:hover {
+  background-color: #ee6e73; 
+}
