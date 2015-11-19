@@ -5,15 +5,19 @@ function displayProducts(products) {
     var newRow = "<tr><td>" +
       product.display_name + "</td><td>" + 
       product.description + "</td><td>" + 
-      product.price_details.cost_per_distance + "</td></tr>";
+      // Display N/A if no price details
+      (product.price_details ? product.price_details.cost_per_distance : "N/A") + "</td></tr>";
 
     $('#products-table').append(newRow);
   });
+
+  $('#products-loader').removeClass("progress");
 }
 
 function getProducts(coordinates) {
   $.get(server + "products", coordinates)
     .done(function(response) {
+      console.log(response);
       displayProducts(response.products);
     });
 }
