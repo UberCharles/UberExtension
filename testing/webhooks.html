@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="jquery.min.js"></script>
+  <link type="text/css" rel="stylesheet" href="materialize.min.css"  media="screen,projection"/>
+  <script type="text/javascript" src="materialize.min.js"></script>
+  <script type="text/javascript" src="main.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="valign-wrapper">
+      <div class="valign center" style="width: 100%;">
+        <input placeholder="Type the request_id here" id="request-id" type="text">
+        <input placeholder="Type the webhook endpoint here (example: http://localhost:8888/webhooks)" id="endpoint-id" type="text">
+        <form action="#">
+          <p>
+            <input class="with-gap" name="request_event" type="radio" id="processing"/>
+            <label for="processing">processing</label>
+          </p>
+          <p>
+            <input class="with-gap" name="request_event" type="radio" id="no_drivers_available"/>
+            <label for="no_drivers_available">no_drivers_available</label>
+          </p>
+          <p>
+            <input class="with-gap" name="request_event" type="radio" id="accepted"/>
+            <label for="accepted">accepted</label>
+          </p>
+          <p>
+            <input class="with-gap" name="request_event" type="radio" id="arriving"/>
+            <label for="arriving">arriving</label>
+          </p>
+          <p>
+            <input class="with-gap" name="request_event" type="radio" id="in_progress"/>
+            <label for="in_progress">in_progress</label>
+          </p>
+          <p>
+            <input class="with-gap" name="request_event" type="radio" id="driver_canceled"/>
+            <label for="driver_canceled">driver_canceled</label>
+          </p>
+          <p>
+            <input class="with-gap" name="request_event" type="radio" id="rider_canceled"/>
+            <label for="rider_canceled">rider_canceled</label>
+          </p>
+          <p>
+            <input class="with-gap" name="request_event" type="radio" id="completed"/>
+            <label for="completed">completed</label>
+          </p>
+        </form>
+        <a class="waves-effect waves-light btn" id="webhook-button">Trigger webhook event</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

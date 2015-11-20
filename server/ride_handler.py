@@ -24,7 +24,6 @@ def request_ride(access_token, request_details):
     "Content-Type": "application/json"
   }
 
-  print(request_body);
   request_response = yield AsyncHTTPClient().fetch(
     config["endpoints"]["requests"], 
     method="POST", 
