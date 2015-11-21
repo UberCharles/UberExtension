@@ -10,10 +10,9 @@ var app = {
 app.initialize = function() {
   this.isAuthenticated(function(cookie) {
     if (cookie) {
+      this.startLoading("Determining your location...");
       // Get JWT from cookie (used to authenticate websocket connections)
-      console.log(cookie);
       this.JWT = cookie.value;
-      console.log(this.JWT);
       this.getLocation(function() {
         if (this.currentLocation) {
           this.getProducts();
@@ -30,48 +29,63 @@ app.initialize = function() {
   }.bind(this));
 };
 
+app.startLoading = function(message) {
+  $('#loading-message').text(message);
+  $('#products-loader').addClass("progress");
+  $('tr').remove();
+}
+
+app.stopLoading = function(message) {
+  $('#loading-message').text("");
+  $('#products-loader').removeClass("progress");
+}
+
 app.initializeRequestStatusWebsockets = function() {
   var ws = new WebSocket("ws://localhost:8888/api/request_status");
   ws.onopen = function() {
      ws.send(JSON.stringify({type: "auth", message: this.JWT}));
   }.bind(this);
   ws.onmessage = function (event) {
-    console.log(JSON.parse(event.data));
     requestEvent = JSON.parse(event.data);
     if (requestEvent.type === "requests.status_changed") {
       if (requestEvent.status === "no_drivers_available") {
-
+        this.stopLoading();
+        this.getProducts();
       }
 
       if (requestEvent.status === "arriving") {
-
+        this.startLoading("Your uber is arriving!");
       }
 
       if (requestEvent.status === "in_progress") {
-
+        this.startLoading("Ride in progress!");
       }
 
+      // Does uber automatically find a new driver if he cancels, or does the user need to request again?
       if (requestEvent.status === "driver_canceled") {
-
+        this.stopLoading();
+        this.getProducts();
       }
 
       if (requestEvent.status === "completed") {
-
+        this.stopLoading();
+        this.getProducts();
       }
 
       if (requestEvent.status === "processing") {
-
+        this.startLoading("Request acknowledged! Searching for a driver...");
       }
 
       if (requestEvent.status === "rider_canceled") {
-
+        this.stopLoading();
+        this.getProducts();
       }
 
       if (requestEvent.status === "accepted") {
-
+        this.startLoading("Your driver is on the way!");
       }
     }
-  };
+  }.bind(this);
 }
 
 app.getLocation = function(callback) {
@@ -101,11 +115,12 @@ app.displayProducts = function(products) {
   });
 
   // Remove loading bar
-  $('#products-loader').removeClass("progress");
+  this.stopLoading();
 
   // Add click handler for requesting a ride
   // Should probably be a separate function
   $('.product-row').click(function(event) {
+    this.startLoading("Requesting an Uber...");
     var requestDetails = {
       product_id: $(event.currentTarget).data("productId"),
       start_latitude: this.currentLocation.latitude,
@@ -127,11 +142,13 @@ app.displayProducts = function(products) {
       .done(function(response) {
         this.currentRequest = response;
         console.log(this.currentRequest);
+        this.startLoading("Request acknowledged! Searching for a driver...");
       }.bind(this));
   }.bind(this));
 }
 
 app.getProducts = function() {
+  this.startLoading("Looking up Uber products available in your area");
   $.get(this.server + "products", this.currentLocation)
     .done(function(response) {
       this.displayProducts(response.products);

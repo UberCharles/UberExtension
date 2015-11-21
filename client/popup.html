@@ -16,6 +16,15 @@
     <script src="popup.js"></script>
   </head>
   <body>
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Modal Header</h4>
+      <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>
     <div class="navbar-fixed">
       <nav>
         <div class="nav-wrapper">
@@ -29,7 +38,7 @@
         </div>
       </nav>
     </div>
-    <table class="highlight">
+    <table id="products-table" class="highlight">
       <thead>
         <tr>
             <th data-field="id">Name</th>
@@ -41,7 +50,8 @@
       <tbody id="products-table">
       </tbody>
     </table>
-    <div id="products-loader" class="progress">
+    <h6 id="loading-message"></h6>
+    <div id="products-loader" class="">
       <div class="indeterminate"></div>
     </div>
     <div id="places-ignore"></div>
