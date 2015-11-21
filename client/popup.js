@@ -36,7 +36,41 @@ app.initializeRequestStatusWebsockets = function() {
      ws.send(JSON.stringify({type: "auth", message: this.JWT}));
   }.bind(this);
   ws.onmessage = function (event) {
-     console.log(JSON.parse(event.data));
+    console.log(JSON.parse(event.data));
+    requestEvent = JSON.parse(event.data);
+    if (requestEvent.type === "requests.status_changed") {
+      if (requestEvent.status === "no_drivers_available") {
+
+      }
+
+      if (requestEvent.status === "arriving") {
+
+      }
+
+      if (requestEvent.status === "in_progress") {
+
+      }
+
+      if (requestEvent.status === "driver_canceled") {
+
+      }
+
+      if (requestEvent.status === "completed") {
+
+      }
+
+      if (requestEvent.status === "processing") {
+
+      }
+
+      if (requestEvent.status === "rider_canceled") {
+
+      }
+
+      if (requestEvent.status === "accepted") {
+
+      }
+    }
   };
 }
 
