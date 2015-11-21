@@ -10,6 +10,7 @@ from base_handler import BaseHandler
 from product_handler import ProductHandler
 from ride_handler import RideHandler
 from webhooks_handler import WebhooksHandler
+from request_status_handler import RequestStatusHandler
 
 class MainHandler(BaseHandler):
   def get(self):
@@ -30,6 +31,7 @@ def make_app():
     (r"/api/requests", RideHandler),
     (r"/api/webhooks", WebhooksHandler),
     (r"/tests/webhooks/(.*)", tornado.web.StaticFileHandler, {"path": "../testing/", "default_filename": "webhooks.html"}),
+    (r"/api/request_status", RequestStatusHandler)
   ], cookie_secret=config["COOKIE_SECRET"])
 
 if __name__ == "__main__":

@@ -46,7 +46,8 @@ def get_user(access_token):
 
 # Store user
 def store_user(user_data, token_data):
-  r.set(user_data["uuid"], json.dumps({
+  r.set("users:" + user_data["uuid"], json.dumps({
+    "uuid": user_data["uuid"],
     "first_name": user_data["first_name"],
     "last_name": user_data["last_name"],
     "email": user_data["email"],
@@ -59,4 +60,4 @@ def store_user(user_data, token_data):
 def create_session(uuid, request_handler):
   # Create JWT that stores UUID
   user_jwt = jwt.encode({"uuid": uuid}, config["JWT_SECRET"], algorithm="HS256")
-  request_handler.set_secure_cookie("JWT", user_jwt)
+  request_handler.set_cookie("JWT", user_jwt)

@@ -2,24 +2,43 @@ var app = {
   server: "http://localhost:8888/api/",
   currentLocation: null,
   selectedDestination: null,
+  currentRequest: null,
+  JWT: null
 }
 
 // TODO: Make products load in background thread
 app.initialize = function() {
-  if (this.isAuthenticated) {
-    this.getLocation(function() {
-      if (this.currentLocation) {
-        this.getProducts();
-        this.loadAutoComplete();
-      } else {
-        // Handle no location case
-      }
-    }.bind(this));
-  // If not authenticated, create new tab with login page
-  } else {
-    chrome.tabs.create({ url: "http://localhost:8888/login" });
-  }
+  this.isAuthenticated(function(cookie) {
+    if (cookie) {
+      // Get JWT from cookie (used to authenticate websocket connections)
+      console.log(cookie);
+      this.JWT = cookie.value;
+      console.log(this.JWT);
+      this.getLocation(function() {
+        if (this.currentLocation) {
+          this.getProducts();
+          this.loadAutoComplete();
+          this.initializeRequestStatusWebsockets();
+        } else {
+          // Handle no location case
+        }
+      }.bind(this));
+    // If not authenticated, create new tab with login page
+    } else {
+      chrome.tabs.create({ url: "http://localhost:8888/login" });
+    }
+  }.bind(this));
 };
+
+app.initializeRequestStatusWebsockets = function() {
+  var ws = new WebSocket("ws://localhost:8888/api/request_status");
+  ws.onopen = function() {
+     ws.send(JSON.stringify({type: "auth", message: this.JWT}));
+  }.bind(this);
+  ws.onmessage = function (event) {
+     console.log(JSON.parse(event.data));
+  };
+}
 
 app.getLocation = function(callback) {
   if (navigator.geolocation) {
@@ -51,6 +70,7 @@ app.displayProducts = function(products) {
   $('#products-loader').removeClass("progress");
 
   // Add click handler for requesting a ride
+  // Should probably be a separate function
   $('.product-row').click(function(event) {
     var requestDetails = {
       product_id: $(event.currentTarget).data("productId"),
@@ -71,7 +91,8 @@ app.displayProducts = function(products) {
       data: JSON.stringify(requestDetails)
     })
       .done(function(response) {
-        console.log(response);
+        this.currentRequest = response;
+        console.log(this.currentRequest);
       }.bind(this));
   }.bind(this));
 }
@@ -104,7 +125,7 @@ app.isAuthenticated = function(callback) {
       if (!cookie) {
         callback(false);
       } else {
-        callback(true);
+        callback(cookie);
       }
     });
   });

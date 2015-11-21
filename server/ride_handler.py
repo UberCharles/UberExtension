@@ -4,6 +4,7 @@ from tornado.httpclient import AsyncHTTPClient
 import urllib
 import json
 from config import config
+from redis_conn import r
 
 @gen.coroutine
 def request_ride(access_token, request_details):
@@ -36,5 +37,8 @@ class RideHandler(BaseHandler):
   def post(self):
     request_details = json.loads(self.request.body)
     request_data = yield request_ride(self.current_user["tokens"]["access"], request_details)
-    print(request_data)
+    # Store the UUID of the user who the active request belongs to
+    print(request_data["request_id"])
+    r.set("requests:" + request_data["request_id"], self.current_user["uuid"])
+    self.write(request_data)
     
