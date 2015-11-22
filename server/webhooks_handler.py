@@ -23,10 +23,23 @@ class WebhooksHandler(BaseHandler):
     if event_data["meta"]["status"] == "accepted":
         user_access_token = json.loads(r.get("users:" + user_uuid))["tokens"]["access"]
         request_details = yield RideHandler.get_request(user_access_token,event_data["meta"]["resource_id"])
+        # Details will contain info about driver and vehicle and eta
         event_message["details"] = {
-            "driver": request_details["driver"],
+            # Driver schema 
+            "driver": {
+                "name": request_details["driver"]["name"],
+                "rating": request_detials["driver"]["rating"],
+                "phone_number": request_details["driver"]["phone_number"],
+                "picture_url": request_details["driver"]["picture_url"]
+            },
             "eta": request_details["eta"],
-            "vehicle": request_details["vehicle"] 
+            # Vehicle schema
+            "vehicle": {
+                "make": request_details["vehicle"]["make"],
+                "model": request_details["vehicle"]["model"],
+                "license_plate": request_details["vehicle"]["license_plate"],
+                "picture_url": request_details["vehicle"]["picture_url"]
+            }
         }
     user_socket.write_message(json.dumps(event_message))
     

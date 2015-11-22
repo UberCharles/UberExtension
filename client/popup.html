@@ -16,50 +16,6 @@
     <script src="popup.js"></script>
   </head>
   <body>
-  <!-- <div class="card-panel grey lighten-5 z-depth-1" style="text-align: center">
-    <div class="row valign-wrapper">
-      <div class="col s4">
-        <img class="responsive-img circle" src="https://d1w2poirtb3as9.cloudfront.net/0d07b1ff9ddd2f19fbff.jpeg">
-      </div>
-      <div class="col s4" style="font-size: 12px">
-        <div class="black-text">
-          Vance
-        </div>
-        <div class="black-text">
-          (650)835-1219
-        </div>
-      </div>
-      <div class="col s4" style="font-size: 12px">
-        <div class="black-text">
-          <h6>ETA</h6>
-        </div>
-        <div class="black-text">
-          <h4>5</h4>
-        </div>
-        <div class="black-text">
-          <h6>Minutes</h6>
-        </div>
-      </div>
-    </div>
-    <div class="row valign-wrapper">
-      <div class="col s4">
-        <img class="responsive-img circle" src="resources/vehicle.png">
-      </div>
-      <div class="col s4" style="font-size: 12px">
-        <div class="black-text">
-          Nissan
-        </div>
-        <div class="black-text">
-          Maxima
-        </div>
-      </div>
-      <div class="col s4" style="font-size: 12px">
-        <div class="black-text" style="outline: solid black 1px; outline-offset: 15px">
-          <h5>5nss271</h5>
-        </div>
-      </div>
-    </div>
-  </div> -->
   <div id="modal1" class="modal">
     <div class="modal-content">
       <h4>Modal Header</h4>
@@ -94,6 +50,47 @@
       <tbody id="products-table">
       </tbody>
     </table>
+    <div id="request-display" class="card-panel grey lighten-5 z-depth-1" style="text-align: center; display: none">
+      <div class="row valign-wrapper">
+        <div class="col s4">
+          <img id="driver-image" class="responsive-img circle" src="">
+        </div>
+        <div class="col s4" style="font-size: 12px">
+          <div id="driver-name" class="black-text">
+          </div>
+          <div id="driver-number" class="black-text">
+          </div>
+        </div>
+        <div class="col s4" style="font-size: 12px">
+          <div class="black-text">
+            <h6>ETA</h6>
+          </div>
+          <div class="black-text">
+            <h4 id="driver-eta"></h4>
+          </div>
+          <div class="black-text">
+            <h6>Minutes</h6>
+          </div>
+        </div>
+      </div>
+      <div class="row valign-wrapper">
+        <div class="col s4">
+          <!-- Stock photo if no photo returned from API -->
+          <img id="driver-car-image" class="responsive-img circle" src="">
+        </div>
+        <div class="col s4" style="font-size: 12px">
+          <div id="driver-car-make" class="black-text">
+          </div>
+          <div id="driver-car-model" class="black-text">
+          </div>
+        </div>
+        <div class="col s4" style="font-size: 12px">
+          <div class="black-text" style="outline: solid black 1px; outline-offset: 15px">
+            <h5 id="driver-car-license"></h5>
+          </div>
+        </div>
+      </div>
+    </div>
     <h6 id="loading-message"></h6>
     <div id="products-loader" class="">
       <div class="indeterminate"></div>

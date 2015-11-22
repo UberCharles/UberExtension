@@ -29,10 +29,14 @@ app.initialize = function() {
   }.bind(this));
 };
 
+app.removeProducts = function() {
+  $('tr').remove();
+}
+
 app.startLoading = function(message) {
   $('#loading-message').text(message);
   $('#products-loader').addClass("progress");
-  $('tr').remove();
+  this.removeProducts();
 }
 
 app.stopLoading = function(message) {
@@ -83,7 +87,11 @@ app.initializeRequestStatusWebsockets = function() {
 
       if (requestEvent.status === "accepted") {
         console.log(requestEvent);
-        this.startLoading("Your driver is on the way!");
+        if (requestEvent.details) {
+          this.renderRequest(requestEvent.details);
+        } else {
+          this.startLoading("Your driver is on the way!");
+        }
       }
     }
   }.bind(this);
@@ -202,6 +210,31 @@ app.isAuthenticated = function(callback) {
       }
     });
   });
+}
+
+app.renderRequest = function(requestDetails) {
+  this.stopLoading();
+  this.removeProducts();
+  $('#driver-name').text(requestDetails.driver.name);
+  $('#driver-number').text(requestDetails.driver.phone_number);
+  $('#driver-image').attr("src", requestDetails.driver.picture_url || "resources/driver.png");
+  $('#driver-eta').text(requestDetails.eta);
+  $('#driver-car-make').text(requestDetails.vehicle.make);
+  $('#driver-car-model').text(requestDetails.vehicle.model);
+  $('#driver-car-license').text(requestDetails.vehicle.license_plate);
+  $('#driver-car-image').text(requestDetails.vehicle.picture_url || "resources/vehicle.png")
+  $('#request-display').attr("display", "block");
+}
+
+app.removeRequest = function() {
+  $('#driver-name').text("");
+  $('#driver-number').text("");
+  $('#driver-image').attr("src", "");
+  $('#driver-eta').text("");
+  $('#driver-car-make').text("");
+  $('#driver-car-model').text("");
+  $('#driver-car-license').text("");
+  $('#request-display').attr("display", "block");
 }
 
 app.initialize();
