@@ -11,6 +11,7 @@ from product_handler import ProductHandler
 from ride_handler import RideHandler
 from webhooks_handler import WebhooksHandler
 from request_status_handler import RequestStatusHandler
+from price_estimates_handler import PriceEstimatesHandler
 
 class MainHandler(BaseHandler):
   def get(self):
@@ -29,9 +30,11 @@ def make_app():
     (r"/token", TokenHandler),
     (r"/api/products", ProductHandler),
     (r"/api/requests", RideHandler),
+    (r"/api/requests/(.*)", RideHandler),
     (r"/api/webhooks", WebhooksHandler),
     (r"/tests/webhooks/(.*)", tornado.web.StaticFileHandler, {"path": "../testing/", "default_filename": "webhooks.html"}),
-    (r"/api/request_status", RequestStatusHandler)
+    (r"/api/request_status", RequestStatusHandler),
+    (r"/api/estimates/price", PriceEstimatesHandler)
   ], cookie_secret=config["COOKIE_SECRET"])
 
 if __name__ == "__main__":

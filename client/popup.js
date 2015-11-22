@@ -82,6 +82,7 @@ app.initializeRequestStatusWebsockets = function() {
       }
 
       if (requestEvent.status === "accepted") {
+        console.log(requestEvent);
         this.startLoading("Your driver is on the way!");
       }
     }
@@ -105,11 +106,12 @@ app.getLocation = function(callback) {
 
 app.displayProducts = function(products) {
   products.forEach(function(product) {
-    var newRowString = '<tr class="product-row"><td>' +
-      product.display_name + '</td><td>' + 
-      product.description + '</td><td>' + 
+    var newRowString = '<tr class="product-row">' + 
+      '<td class="product-name">' + product.display_name + '</td>' + 
+      '<td class="product-description">' + product.description + '</td>' + 
       // Display N/A if no price details
-      (product.price_details ? product.price_details.cost_per_distance : 'N/A') + '</td></tr>';
+      '<td class="product-price">' + (product.price_details ? product.price_details.cost_per_distance : 'N/A') + 
+      '</td></tr>';
     var $newRow = $(newRowString).attr('data-product-id', product.product_id);
     $('#products-table').append($newRow);
   });
@@ -132,6 +134,8 @@ app.displayProducts = function(products) {
       requestDetails.end_latitude = this.selectedDestination.latitude,
       requestDetails.end_longitude = this.selectedDestination.longitude
     }
+
+    console.log(requestDetails);
 
     $.ajax({
       url: this.server + "requests",
@@ -158,11 +162,29 @@ app.getProducts = function() {
 app.loadAutoComplete = function() {
   autocompleteService = new google.maps.places.Autocomplete($('#search-places').get(0));
   autocompleteService.addListener('place_changed', function() {
+
     var place = autocompleteService.getPlace();
     this.selectedDestination = {
       latitude: place.geometry.location.lat(),
       longitude: place.geometry.location.lng()
     }
+
+    var priceEstimateData = {
+      start_latitude: this.currentLocation.latitude,
+      start_longitude: this.currentLocation.longitude,
+      end_latitude: this.selectedDestination.latitude,
+      end_longitude: this.selectedDestination.longitude
+    }
+
+    $.get(this.server + "estimates/price", priceEstimateData)
+    .done(function(response) {
+      console.log(response);
+      response.prices.forEach(function(productEstimate) {
+        $('[data-product-id=' + productEstimate.product_id + ']')
+          .find('.product-price').text(productEstimate.estimate);
+      });
+    }.bind(this));
+
   }.bind(this));
 };
 
