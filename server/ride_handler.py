@@ -48,6 +48,16 @@ class RideHandler(BaseHandler):
     request_data = yield self.get_request(self.current_user["tokens"]["access"], request_id)
     print(request_data)
 
+  @gen.coroutine
+  def delete(self, request_id):
+    delete_request = yield self.delete_request(self.curent_user["tokens"]["access"], request_id)
+    if delete_request == 204:
+      self.set_status(204)
+      self.write("Success!")
+    else:
+      self.set_status(400)
+      self.write("Failure!")
+
   @staticmethod
   @gen.coroutine
   def get_request(access_token, request_id):
@@ -55,6 +65,16 @@ class RideHandler(BaseHandler):
     request_response = yield AsyncHTTPClient().fetch(
       config["endpoints"]["requests"] + "/" + request_id,
       method="GET",
-      headers=request_header
-      )
+      headers=request_header)
     raise gen.Return(json.loads(request_response.body))
+
+  @staticmethod
+  @gen.coroutine
+  def delete_request(access_token, request_id):
+    request_header = create_request_header(access_token)
+    delete_request_response = yield AsyncHTTPClient().fetch(
+      config["endpoints"]["requests"] + "/" + request_id,
+      method="DELETE",
+      headers=request_header)
+    raise gen.Return(request_response.code)
+

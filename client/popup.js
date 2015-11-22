@@ -224,6 +224,18 @@ app.renderRequest = function(requestDetails) {
   $('#driver-car-license').text(requestDetails.vehicle.license_plate);
   $('#driver-car-image').text(requestDetails.vehicle.picture_url || "resources/vehicle.png")
   $('#request-display').attr("display", "block");
+  $('#request-cancel-button').click(function(event) {
+    this.removeRequest();
+    this.startLoading("Canceling request...");
+    $.ajax({
+      url: this.server + "requests/" + this.currentRequest.request_id,
+      method: "DELETE",
+    })
+      .done(function(response) {
+        this.stopLoading();
+        this.getProducts();
+      })
+  }.bind(this));
 }
 
 app.removeRequest = function() {
