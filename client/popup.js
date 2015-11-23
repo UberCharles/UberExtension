@@ -36,13 +36,13 @@ app.removeProducts = function() {
 
 app.startLoading = function(message) {
   $('#loading-message').text(message);
-  $('#products-loader').addClass("progress");
+  $('#loading-area').css("display", "block");
   this.removeProducts();
 }
 
 app.stopLoading = function(message) {
   $('#loading-message').text("");
-  $('#products-loader').removeClass("progress");
+  $('#loading-area').css("display", "none");
 }
 
 app.initializeRequestStatusWebsockets = function() {
@@ -55,6 +55,7 @@ app.initializeRequestStatusWebsockets = function() {
     if (requestEvent.type === "requests.status_changed") {
       if (requestEvent.status === "no_drivers_available") {
         this.stopLoading();
+        this.removeRequest();
         this.getProducts();
       }
 
@@ -69,11 +70,13 @@ app.initializeRequestStatusWebsockets = function() {
       // Does uber automatically find a new driver if he cancels, or does the user need to request again?
       if (requestEvent.status === "driver_canceled") {
         this.stopLoading();
+        this.removeRequest();
         this.getProducts();
       }
 
       if (requestEvent.status === "completed") {
         this.stopLoading();
+        this.removeRequest();
         this.getProducts();
       }
 
@@ -83,6 +86,7 @@ app.initializeRequestStatusWebsockets = function() {
 
       if (requestEvent.status === "rider_canceled") {
         this.stopLoading();
+        this.removeRequest();
         this.getProducts();
       }
 
