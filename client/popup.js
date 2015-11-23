@@ -1,6 +1,6 @@
 var app = {
-  server: "http://ec2-52-33-193-139.us-west-2.compute.amazonaws.com/api/",
-  websocketUrl: "ws://ec2-52-33-193-139.us-west-2.compute.amazonaws.com/api/request_status",
+  server: "http:/uber-extension.herokuapp.com/api/",
+  websocketUrl: "ws://uber-extension.herokuapp.com/api/request_status",
   currentLocation: null,
   selectedDestination: null,
   currentRequest: null,
@@ -25,7 +25,7 @@ app.initialize = function() {
       }.bind(this));
     // If not authenticated, create new tab with login page
     } else {
-      chrome.tabs.create({ url: "ec2-52-33-193-139.us-west-2.compute.amazonaws.com/login" });
+      chrome.tabs.create({ url: "http://uber-extension.herokuapp.com/login" });
     }
   }.bind(this));
 };
@@ -200,7 +200,7 @@ app.loadAutoComplete = function() {
 app.isAuthenticated = function(callback) {
   document.addEventListener('DOMContentLoaded', function() {
     var cookieDetails = {
-      url: "http://ec2-52-33-193-139.us-west-2.compute.amazonaws.com/",
+      url: "http://uber-extension.herokuapp.com/",
       name: "JWT"
     }
     chrome.cookies.get(cookieDetails, function(cookie) {
