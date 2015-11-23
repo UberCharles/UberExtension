@@ -1,3 +1,8 @@
 import os
 import redis
-r = redis.StrictRedis(host=os.environ.get('REDIS_URL', 'localhost'), db=0)
+import urlparse
+if os.environ.get('REDIS_URL', 'localhost') != 'localhost':
+  url = urlparse.urlparse(os.environ.get('REDISCLOUD_URL'))
+  r = redis.Redis(host=url.hostname, port=url.port, password=url.password)
+else:
+  r = redis.StrictRedis(host='localhost', port=6379, db=0)
