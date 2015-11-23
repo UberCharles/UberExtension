@@ -235,7 +235,7 @@ app.renderRequest = function(requestDetails) {
       .done(function(response) {
         this.stopLoading();
         this.getProducts();
-      })
+      }.bind(this))
   }.bind(this));
 }
 
