@@ -224,8 +224,8 @@ app.renderRequest = function(requestDetails) {
   $('#driver-car-model').text(requestDetails.vehicle.model);
   $('#driver-car-license').text(requestDetails.vehicle.license_plate);
   $('#driver-car-image').text(requestDetails.vehicle.picture_url || "resources/vehicle.png")
-  $('#request-display').attr("display", "block");
-  $('#request-cancel-button').click(function(event) {
+  $('#request-display').css("display", "block");
+  $('#cancel-request-button').click(function(event) {
     this.removeRequest();
     this.startLoading("Canceling request...");
     $.ajax({
@@ -247,7 +247,7 @@ app.removeRequest = function() {
   $('#driver-car-make').text("");
   $('#driver-car-model').text("");
   $('#driver-car-license').text("");
-  $('#request-display').attr("display", "block");
+  $('#request-display').css("display", "none");
 }
 
 app.initialize();

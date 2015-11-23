@@ -50,7 +50,7 @@ class RideHandler(BaseHandler):
 
   @gen.coroutine
   def delete(self, request_id):
-    delete_request = yield self.delete_request(self.curent_user["tokens"]["access"], request_id)
+    delete_request = yield self.delete_request(self.current_user["tokens"]["access"], request_id)
     if delete_request == 204:
       self.set_status(204)
       self.write("Success!")

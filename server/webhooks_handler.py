@@ -22,7 +22,7 @@ class WebhooksHandler(BaseHandler):
     # If status is "accepted" then obtain request details to send to client
     if event_data["meta"]["status"] == "accepted":
         user_access_token = json.loads(r.get("users:" + user_uuid))["tokens"]["access"]
-        request_details = yield RideHandler.get_request(user_access_token,event_data["meta"]["resource_id"])
+        request_details = yield RideHandler.get_request(user_access_token, event_data["meta"]["resource_id"])
         # Details will contain info about driver and vehicle and eta
         event_message["details"] = {
             # Driver schema 
