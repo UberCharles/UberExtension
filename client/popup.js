@@ -1,5 +1,6 @@
 var app = {
-  server: "http://localhost:8888/api/",
+  server: "http://ec2-52-33-193-139.us-west-2.compute.amazonaws.com/api/",
+  websocketUrl: "ws://ec2-52-33-193-139.us-west-2.compute.amazonaws.com/api/request_status",
   currentLocation: null,
   selectedDestination: null,
   currentRequest: null,
@@ -24,7 +25,7 @@ app.initialize = function() {
       }.bind(this));
     // If not authenticated, create new tab with login page
     } else {
-      chrome.tabs.create({ url: "http://localhost:8888/login" });
+      chrome.tabs.create({ url: "ec2-52-33-193-139.us-west-2.compute.amazonaws.com/login" });
     }
   }.bind(this));
 };
@@ -45,7 +46,7 @@ app.stopLoading = function(message) {
 }
 
 app.initializeRequestStatusWebsockets = function() {
-  var ws = new WebSocket("ws://localhost:8888/api/request_status");
+  var ws = new WebSocket(this.websocketUrl);
   ws.onopen = function() {
      ws.send(JSON.stringify({type: "auth", message: this.JWT}));
   }.bind(this);
@@ -199,7 +200,7 @@ app.loadAutoComplete = function() {
 app.isAuthenticated = function(callback) {
   document.addEventListener('DOMContentLoaded', function() {
     var cookieDetails = {
-      url: "http://localhost:8888/",
+      url: "http://ec2-52-33-193-139.us-west-2.compute.amazonaws.com/",
       name: "JWT"
     }
     chrome.cookies.get(cookieDetails, function(cookie) {

@@ -1,0 +1,1 @@
+ssh -i uber.pem ubuntu@ec2-52-33-193-139.us-west-2.compute.amazonaws.com
