@@ -200,7 +200,7 @@ app.loadAutoComplete = function() {
 app.isAuthenticated = function(callback) {
   document.addEventListener('DOMContentLoaded', function() {
     var cookieDetails = {
-      url: "http://uber-extension.herokuapp.com/",
+      url: "https://uber-extension.herokuapp.com/",
       name: "JWT"
     }
     chrome.cookies.get(cookieDetails, function(cookie) {

@@ -5,6 +5,10 @@ from config import config
 import json
 
 class BaseHandler(tornado.web.RequestHandler):
+  # Allows CORS
+  def set_default_headers(self):
+        self.set_header("Access-Control-Allow-Origin", "*")
+
   def get_current_user(self):
     # Check if cookie exists
     user_jwt = self.get_cookie("JWT")

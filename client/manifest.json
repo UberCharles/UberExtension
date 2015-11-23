@@ -14,6 +14,7 @@
     "cookies",
     "geolocation",
     "http://localhost:8888/",
+    "https://uber-extension.herokuapp.com/",
     "storage"
   ],
   "content_security_policy": "script-src 'self' https://*.googleapis.com; object-src 'self'"
