@@ -28,7 +28,7 @@ class WebhooksHandler(BaseHandler):
             # Driver schema 
             "driver": {
                 "name": request_details["driver"]["name"],
-                "rating": request_detials["driver"]["rating"],
+                "rating": request_details["driver"]["rating"],
                 "phone_number": request_details["driver"]["phone_number"],
                 "picture_url": request_details["driver"]["picture_url"]
             },

@@ -1,5 +1,5 @@
 var app = {
-  server: "http:/uber-extension.herokuapp.com/api/",
+  server: "https:/uber-extension.herokuapp.com/api/",
   websocketUrl: "ws://uber-extension.herokuapp.com/api/request_status",
   currentLocation: null,
   selectedDestination: null,
@@ -25,7 +25,7 @@ app.initialize = function() {
       }.bind(this));
     // If not authenticated, create new tab with login page
     } else {
-      chrome.tabs.create({ url: "http://uber-extension.herokuapp.com/login" });
+      chrome.tabs.create({ url: "https://uber-extension.herokuapp.com/login" });
     }
   }.bind(this));
 };
