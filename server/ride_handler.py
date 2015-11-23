@@ -76,5 +76,5 @@ class RideHandler(BaseHandler):
       config["endpoints"]["requests"] + "/" + request_id,
       method="DELETE",
       headers=request_header)
-    raise gen.Return(request_response.code)
+    raise gen.Return(delete_request_response.code)
 
