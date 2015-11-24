@@ -53,6 +53,7 @@ app.initializeRequestStatusWebsockets = function() {
   }.bind(this);
   ws.onmessage = function (event) {
     requestEvent = JSON.parse(event.data);
+    console.log(requestEvent);
     if (requestEvent.type === "requests.status_changed") {
       if (requestEvent.status === "no_drivers_available") {
         this.stopLoading();
@@ -100,6 +101,9 @@ app.initializeRequestStatusWebsockets = function() {
         }
       }
     }
+  }.bind(this);
+  ws.onclose = function(event) {
+    console.log("Websocket connection closed!");
   }.bind(this);
 }
 

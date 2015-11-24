@@ -28,3 +28,8 @@ class RequestStatusHandler(tornado.websocket.WebSocketHandler):
     # Remove key if exists, otherwise return default (None) -- Won't raise key-error
     self.socket_connections.pop(self.user_UUID, None)
     print("Websocket connection closed!")
+
+  @staticmethod
+  ping_connections():
+    for connection in socket_connections:
+      socket_connections[connection].ping()

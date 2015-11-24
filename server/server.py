@@ -42,4 +42,8 @@ if __name__ == "__main__":
   app = make_app()
   app.listen(os.environ.get("PORT", 8888))
   print("Server listening on " + str(os.environ.get("PORT", 8888)))
-  tornado.ioloop.IOLoop.current().start()
+  main_loop = tornado.ioloop.IOLoop.current()
+  # Periodically ping websocket connections to keep them active
+  ping_websockets = tornado.ioloop.PeriodicCallback(RequestStatusHandler.ping_connections, 5000, io_loop=main_loop)
+  ping_websockets.start()
+  main_loop.start()
