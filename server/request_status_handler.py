@@ -32,4 +32,4 @@ class RequestStatusHandler(tornado.websocket.WebSocketHandler):
   @classmethod
   def ping_connections(self):
     for connection in self.socket_connections:
-      self.socket_connections[connection].ping()
+      self.socket_connections[connection].ping("Stayin' alive")
