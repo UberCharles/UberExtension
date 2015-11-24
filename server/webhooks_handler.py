@@ -12,13 +12,13 @@ class WebhooksHandler(BaseHandler):
   @gen.coroutine
   def post(self):
     event_data = json.loads(self.request.body)
-    # print(self.request.body)
-    # print(RequestStatusHandler.socket_connections)
     # Look up UUID of user based on request_id of webhook event
     user_uuid = r.get("requests:" + event_data["meta"]["resource_id"])
     # Get the websocket connection that corresponds to that user UUID
     user_socket = RequestStatusHandler.socket_connections[user_uuid]
     event_message = {"type": event_data["event_type"], "status": event_data["meta"]["status"]}
+    print("event message:")
+    print(event_messageh)
     # If status is "accepted" then obtain request details to send to client
     if event_data["meta"]["status"] == "accepted":
         user_access_token = json.loads(r.get("users:" + user_uuid))["tokens"]["access"]

@@ -1,6 +1,8 @@
 var app = {
-  server: "https:/uber-extension.herokuapp.com/api/",
+  serverAPI: "https:/uber-extension.herokuapp.com/api/",
+  serverLogin: "https://uber-extension.herokuapp.com/login",
   websocketUrl: "ws://uber-extension.herokuapp.com/api/request_status",
+  cookieURL: "https://uber-extension.herokuapp.com/",
   currentLocation: null,
   selectedDestination: null,
   currentRequest: null,
@@ -25,7 +27,7 @@ app.initialize = function() {
       }.bind(this));
     // If not authenticated, create new tab with login page
     } else {
-      chrome.tabs.create({ url: "https://uber-extension.herokuapp.com/login" });
+      chrome.tabs.create({ url: this.serverLogin });
     }
   }.bind(this));
 };
@@ -156,7 +158,7 @@ app.displayProducts = function(products) {
     console.log(requestDetails);
 
     $.ajax({
-      url: this.server + "requests",
+      url: this.serverAPI + "requests",
       method: "POST",
       contentType: "application/json",
       data: JSON.stringify(requestDetails)
@@ -171,7 +173,7 @@ app.displayProducts = function(products) {
 
 app.getProducts = function() {
   this.startLoading("Looking up Uber products available in your area");
-  $.get(this.server + "products", this.currentLocation)
+  $.get(this.serverAPI + "products", this.currentLocation)
     .done(function(response) {
       this.displayProducts(response.products);
     }.bind(this));
@@ -194,7 +196,7 @@ app.loadAutoComplete = function() {
       end_longitude: this.selectedDestination.longitude
     }
 
-    $.get(this.server + "estimates/price", priceEstimateData)
+    $.get(this.serverAPI + "estimates/price", priceEstimateData)
     .done(function(response) {
       console.log(response);
       response.prices.forEach(function(productEstimate) {
@@ -209,7 +211,7 @@ app.loadAutoComplete = function() {
 app.isAuthenticated = function(callback) {
   document.addEventListener('DOMContentLoaded', function() {
     var cookieDetails = {
-      url: "https://uber-extension.herokuapp.com/",
+      url: this.cookieURL,
       name: "JWT"
     }
     chrome.cookies.get(cookieDetails, function(cookie) {
@@ -218,8 +220,8 @@ app.isAuthenticated = function(callback) {
       } else {
         callback(cookie);
       }
-    });
-  });
+    }.bind(this));
+  }.bind(this));
 }
 
 app.renderRequest = function(requestDetails) {
@@ -238,7 +240,7 @@ app.renderRequest = function(requestDetails) {
     this.removeRequest();
     this.startLoading("Canceling request...");
     $.ajax({
-      url: this.server + "requests/" + this.currentRequest.request_id,
+      url: this.serverAPI + "requests/" + this.currentRequest.request_id,
       method: "DELETE",
     })
       .done(function(response) {
