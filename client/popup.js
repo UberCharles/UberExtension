@@ -1,8 +1,8 @@
 var app = {
-  serverAPI: "https:/uber-extension.herokuapp.com/api/",
-  serverLogin: "https://uber-extension.herokuapp.com/login",
-  websocketUrl: "ws://uber-extension.herokuapp.com/api/request_status",
-  cookieURL: "https://uber-extension.herokuapp.com/",
+  serverAPI: "http://localhost:8888/api/",
+  serverLogin: "http://localhost:8888/login",
+  websocketUrl: "ws://localhost:8888/api/request_status",
+  cookieURL: "http://localhost:8888/",
   currentLocation: null,
   selectedDestination: null,
   currentRequest: null,
