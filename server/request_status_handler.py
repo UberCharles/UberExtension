@@ -30,6 +30,6 @@ class RequestStatusHandler(tornado.websocket.WebSocketHandler):
     print("Websocket connection closed!")
 
   @staticmethod
-  ping_connections():
+  def ping_connections():
     for connection in socket_connections:
       socket_connections[connection].ping()
