@@ -2,3 +2,4 @@ uber_env
 config.py
 *.pyc
 *.pem
+*.DS_Store
