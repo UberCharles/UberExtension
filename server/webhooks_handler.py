@@ -26,7 +26,7 @@ class WebhooksHandler(BaseHandler):
         print("Request details:")
         print(request_details)
         # Make sure status is still accepted since webhook event
-        if (request_details.status == "accepted"):
+        if (request_details["status"] == "accepted"):
             # Details will contain info about driver and vehicle and eta
             event_message["details"] = {
                 # Driver schema 
