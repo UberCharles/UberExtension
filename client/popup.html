@@ -16,6 +16,17 @@
     <script src="popup.js"></script>
   </head>
   <body>
+  <div class="row">
+    <div class="col s12">
+      <ul class="tabs">
+        <li class="tab col s4"><a class="active" href="#quick-ride">Quick Ride</a></li>
+        <li class="tab col s4"><a href="#scheduler">Scheduler</a></li>
+        <li class="tab col s4"><a href="#reminders">Reminders</a></li>
+      </ul>
+    </div>
+    <!-- <div id="test1" class="col s12">Test 1</div> -->
+    <!-- <div id="test2" class="col s12">Test 2</div> -->
+  </div>
   <div id="modal1" class="modal">
     <div class="modal-content">
       <h4>Modal Header</h4>
@@ -38,65 +49,70 @@
         </div>
       </nav>
     </div>
-    <table id="products-table" class="highlight">
-      <thead>
-        <tr>
-            <th data-field="id">Name</th>
-            <th data-field="name">Description</th>
-            <th data-field="price">$ / Mile</th>
-        </tr>
-      </thead>
+    <div id="quick-ride">
+      <table id="products-table" class="highlight">
+        <thead>
+          <tr>
+              <th data-field="id">Name</th>
+              <th data-field="name">Description</th>
+              <th data-field="price">$ / Mile</th>
+          </tr>
+        </thead>
 
-      <tbody id="products-table">
-      </tbody>
-    </table>
-    <div id="request-display" class="card-panel grey lighten-5 z-depth-1" style="text-align: center; display: none">
-      <div class="row valign-wrapper">
-        <div class="col s4">
-          <img id="driver-image" class="responsive-img circle" src="">
+        <tbody id="products-table">
+        </tbody>
+      </table>
+      <div id="request-display" class="card-panel grey lighten-5 z-depth-1" style="text-align: center; display: none">
+        <div class="row valign-wrapper">
+          <div class="col s4">
+            <img id="driver-image" class="responsive-img circle" src="">
+          </div>
+          <div class="col s4" style="font-size: 12px">
+            <div id="driver-name" class="black-text">
+            </div>
+            <div id="driver-number" class="black-text">
+            </div>
+          </div>
+          <div class="col s4" style="font-size: 12px">
+            <div class="black-text">
+              <h6>ETA</h6>
+            </div>
+            <div class="black-text">
+              <h4 id="driver-eta"></h4>
+            </div>
+            <div class="black-text">
+              <h6>Minutes</h6>
+            </div>
+          </div>
         </div>
-        <div class="col s4" style="font-size: 12px">
-          <div id="driver-name" class="black-text">
+        <div class="row valign-wrapper">
+          <div class="col s4">
+            <!-- Stock photo if no photo returned from API -->
+            <img id="driver-car-image" class="responsive-img circle" src="resources/vehicle.png">
           </div>
-          <div id="driver-number" class="black-text">
+          <div class="col s4" style="font-size: 12px">
+            <div id="driver-car-make" class="black-text">
+            </div>
+            <div id="driver-car-model" class="black-text">
+            </div>
+          </div>
+          <div class="col s4" style="font-size: 12px">
+            <div class="black-text" style="outline: solid black 1px; outline-offset: 15px">
+              <h5 id="driver-car-license"></h5>
+            </div>
           </div>
         </div>
-        <div class="col s4" style="font-size: 12px">
-          <div class="black-text">
-            <h6>ETA</h6>
-          </div>
-          <div class="black-text">
-            <h4 id="driver-eta"></h4>
-          </div>
-          <div class="black-text">
-            <h6>Minutes</h6>
-          </div>
+        <a id="cancel-request-button"style="background-color: white; color: black;" class="waves-effect waves-red btn">Cancel Ride</a>
+      </div>
+      <div id="loading-area">
+        <h6 id="loading-message"></h6>
+        <div id="products-loader" class="progress">
+          <div class="indeterminate"></div>
         </div>
       </div>
-      <div class="row valign-wrapper">
-        <div class="col s4">
-          <!-- Stock photo if no photo returned from API -->
-          <img id="driver-car-image" class="responsive-img circle" src="resources/vehicle.png">
-        </div>
-        <div class="col s4" style="font-size: 12px">
-          <div id="driver-car-make" class="black-text">
-          </div>
-          <div id="driver-car-model" class="black-text">
-          </div>
-        </div>
-        <div class="col s4" style="font-size: 12px">
-          <div class="black-text" style="outline: solid black 1px; outline-offset: 15px">
-            <h5 id="driver-car-license"></h5>
-          </div>
-        </div>
-      </div>
-      <a id="cancel-request-button"style="background-color: white; color: black;" class="waves-effect waves-red btn">Cancel Ride</a>
     </div>
-    <div id="loading-area">
-      <h6 id="loading-message"></h6>
-      <div id="products-loader" class="progress">
-        <div class="indeterminate"></div>
-      </div>
+    <div id="scheduler">
+      Hello World!
     </div>
     <div id="places-ignore"></div>
   </body>

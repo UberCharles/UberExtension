@@ -48,7 +48,8 @@ app.stopLoading = function(message) {
 app.initializeRequestStatusWebsockets = function() {
   var ws = new WebSocket(this.websocketUrl);
   ws.onopen = function() {
-     ws.send(JSON.stringify({type: "auth", message: this.JWT}));
+    console.log("Websocket connection opened!");
+    ws.send(JSON.stringify({type: "auth", message: this.JWT}));
   }.bind(this);
   ws.onmessage = function (event) {
     requestEvent = JSON.parse(event.data);

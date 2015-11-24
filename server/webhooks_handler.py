@@ -25,23 +25,25 @@ class WebhooksHandler(BaseHandler):
         request_details = yield RideHandler.get_request(user_access_token, event_data["meta"]["resource_id"])
         print("Request details:")
         print(request_details)
-        # Details will contain info about driver and vehicle and eta
-        event_message["details"] = {
-            # Driver schema 
-            "driver": {
-                "name": request_details["driver"]["name"],
-                "rating": request_details["driver"]["rating"],
-                "phone_number": request_details["driver"]["phone_number"],
-                "picture_url": request_details["driver"]["picture_url"]
-            },
-            "eta": request_details["eta"],
-            # Vehicle schema
-            "vehicle": {
-                "make": request_details["vehicle"]["make"],
-                "model": request_details["vehicle"]["model"],
-                "license_plate": request_details["vehicle"]["license_plate"],
-                "picture_url": request_details["vehicle"]["picture_url"]
+        # Make sure status is still accepted since webhook event
+        if (request_details.status == "accepted"):
+            # Details will contain info about driver and vehicle and eta
+            event_message["details"] = {
+                # Driver schema 
+                "driver": {
+                    "name": request_details["driver"]["name"],
+                    "rating": request_details["driver"]["rating"],
+                    "phone_number": request_details["driver"]["phone_number"],
+                    "picture_url": request_details["driver"]["picture_url"]
+                },
+                "eta": request_details["eta"],
+                # Vehicle schema
+                "vehicle": {
+                    "make": request_details["vehicle"]["make"],
+                    "model": request_details["vehicle"]["model"],
+                    "license_plate": request_details["vehicle"]["license_plate"],
+                    "picture_url": request_details["vehicle"]["picture_url"]
+                }
             }
-        }
     user_socket.write_message(json.dumps(event_message))
     
