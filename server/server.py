@@ -13,6 +13,8 @@ from ride_handler import RideHandler
 from webhooks_handler import WebhooksHandler
 from request_status_handler import RequestStatusHandler
 from price_estimates_handler import PriceEstimatesHandler
+from mongo_conn import mongo
+from reminder_handler import ReminderHandler
 
 class MainHandler(BaseHandler):
   def get(self):
@@ -35,7 +37,10 @@ def make_app():
     (r"/api/webhooks", WebhooksHandler),
     (r"/tests/webhooks/(.*)", tornado.web.StaticFileHandler, {"path": "../testing/", "default_filename": "webhooks.html"}),
     (r"/api/request_status", RequestStatusHandler),
-    (r"/api/estimates/price", PriceEstimatesHandler)
+    (r"/api/estimates/price", PriceEstimatesHandler),
+    # Pass reference to reminders collection in MongoDB to reminders request handlers
+    (r"/api/reminders", ReminderHandler, dict(reminders_collection=mongo["reminders"])),
+    (r"/api/reminders/(.*)", ReminderHandler, dict(reminders_collection=mongo["reminders"]))
   ], cookie_secret=config["COOKIE_SECRET"])
 
 if __name__ == "__main__":

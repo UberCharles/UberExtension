@@ -11,16 +11,20 @@
     <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
     <script src="jquery.min.js"></script>
     <script type="text/javascript" src="js/materialize.min.js"></script>
+    <!-- Date / Time picker -->
+    <script type="text/javascript" src="js/picker.js"></script>
+    <script type="text/javascript" src="js/picker.time.js"></script>
+    <script type="text/javascript" src="js/picker.date.js"></script>
     <link href="css/main.css" rel="stylesheet">
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDz7smnVlU9Xx2dzXdsdh0bm8tcVR2PDnU&libraries=places"></script>
     <script src="popup.js"></script>
+    <script src="reminders.js"></script>
   </head>
   <body>
   <div class="row">
     <div class="col s12">
       <ul class="tabs">
         <li class="tab col s4"><a class="active" href="#quick-ride">Quick Ride</a></li>
-        <li class="tab col s4"><a href="#scheduler">Scheduler</a></li>
         <li class="tab col s4"><a href="#reminders">Reminders</a></li>
       </ul>
     </div>
@@ -34,20 +38,18 @@
       <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
     </div>
   </div>
-    <div class="navbar-fixed">
-      <nav>
-        <div class="nav-wrapper">
-          <!-- <form id="search-form"> -->
-            <div class="input-field">
-              <input id="search-places" type="search" required width="400px" placeholder="Where do you want to go?">
-              <label for="search"><i class="material-icons">search</i></label>
-              <i class="material-icons">close</i>
-            </div>
-          <!-- </form> -->
-        </div>
-      </nav>
-    </div>
     <div id="quick-ride">
+      <div class="navbar-fixed">
+        <nav>
+          <div class="nav-wrapper">
+              <div class="input-field">
+                <input id="search-places" type="search" required width="400px" placeholder="Where do you want to go?">
+                <label for="search"><i class="material-icons">search</i></label>
+                <i class="material-icons">close</i>
+              </div>
+          </div>
+        </nav>
+      </div>
       <table id="products-table" class="highlight">
         <thead>
           <tr>
@@ -109,8 +111,25 @@
         </div>
       </div>
     </div>
-    <div id="scheduler">
-      Hello World!
+    <div id="reminders">
+      <div class="row">
+        <form class="col s12">
+          <input id="event_location" type="text" class="validate">
+          <label for="event_location">Event Location</label>
+          <input id="event_name" type="text" class="validate">
+          <label for="event_name">Event Name</label>
+          <div class="row">
+            <div class="col s6">
+              <input type="date" id="event_date">
+              <label for="event_date">Event Date</label>
+            </div>
+            <div class="col s6">
+              <input type="time" id="event_time">
+              <label for="event_time">Event Date</label>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
     <div id="places-ignore"></div>
   </body>

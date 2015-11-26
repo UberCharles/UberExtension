@@ -58,6 +58,7 @@ class RideHandler(BaseHandler):
       self.set_status(400)
       self.write("Failure!")
 
+  # HTTP helper for getting the status of an active request
   @staticmethod
   @gen.coroutine
   def get_request(access_token, request_id):
@@ -68,6 +69,7 @@ class RideHandler(BaseHandler):
       headers=request_header)
     raise gen.Return(json.loads(request_response.body))
 
+  # HTTP helper for canceling an active request
   @staticmethod
   @gen.coroutine
   def delete_request(access_token, request_id):
